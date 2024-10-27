@@ -55,5 +55,72 @@ pnpx convex dev
 
 ### 2.3 - Configuração do Edge Store - [Link de referência](https://edgestore.dev/docs/quick-start)
 
+# Atividade de Pull Request
+
+### 1. **Reorganização das Pastas e Componentes por Contexto de Uso**
+
+   - **Problema atual**: A pasta `components` contém componentes variados, como `Editor`, `Toolbar`, `icon-picker`, e outros que parecem servir a diferentes funcionalidades. Essa organização é comum, mas, em projetos maiores, uma única pasta com muitos arquivos pode dificultar a navegação e o entendimento da estrutura.
+   - **Sugestão**: Organizar os componentes por domínio ou contexto de uso. Por exemplo:
+     - `components/editor` para todos os componentes que fazem parte do editor de notas, como `Editor`, `Toolbar`, etc.
+     - `components/marketing` para os componentes usados em páginas de marketing, como `Navbar`, `Footer`, e `Logo`.
+     - `components/documents` para componentes que exibem listas de documentos ou itens específicos.
+   - **Justificativa**: Essa abordagem melhora a organização, tornando o projeto mais modular e fácil de navegar. Além disso, facilita o trabalho em equipe, pois outros desenvolvedores conseguem identificar rapidamente onde estão os componentes específicos de cada funcionalidade. Também ajuda na escalabilidade, caso novos componentes sejam adicionados.
+
+---
+
+### 2. **Centralização de Arquivos Globais e Configurações do Next.js**
+
+   - **Problema atual**: Arquivos como `layout.tsx`, `globals.css`, e alguns `providers` (como `theme-provider.tsx`) estão dispersos e misturados com módulos de páginas específicas.
+   - **Sugestão**: Consolidar arquivos globais em uma estrutura de pasta `src`, com subpastas para organizar:
+     - `src/pages`: para os arquivos de página.
+     - `src/providers`: para todos os provedores de contexto.
+     - `src/styles`: para arquivos de estilo globais.
+     - `src/config`: para configurações de frameworks e outras dependências.
+   - **Justificativa**: A estrutura centralizada facilita a navegação e torna mais evidente o que é configuração global e o que é código específico de funcionalidade. Esse modelo de estrutura melhora a clareza de onde se encontram as configurações e componentes compartilhados, o que é útil tanto para quem desenvolve quanto para novos membros que precisam entender o projeto.
+
+---
+
+### 3. **Modularização dos Hooks Customizados**
+
+   - **Problema atual**: Todos os hooks estão em uma pasta única (`hooks`), o que pode ser adequado para poucos hooks, mas tende a se desorganizar conforme a aplicação cresce.
+   - **Sugestão**: Agrupar hooks por categorias de uso em subpastas, como `hooks/ui`, `hooks/network`, ou `hooks/documents`. Alguns exemplos:
+     - Hooks de UI ou estado visual (`use-scroll-top`, `use-cover-image`) podem ir em uma subpasta `hooks/ui`.
+     - Hooks que lidam com dados de backend ou configurações (`use-settings`) poderiam estar em `hooks/network` ou `hooks/settings`.
+   - **Justificativa**: Melhor organização e manutenção de código, com a possibilidade de criar hooks específicos para áreas funcionais e contextos distintos. Em uma equipe maior, isso permite que os desenvolvedores identifiquem rapidamente onde estão os hooks de um determinado tipo ou funcionalidade.
+
+---
+
+### 4. **Documentação Interna de Componentes e Estrutura da API**
+
+   - **Problema atual**: Não parece haver documentação nos componentes, o que dificulta o entendimento do propósito e uso de cada módulo.
+   - **Sugestão**: Adicionar breves comentários nos componentes principais ou criar um `README.md` dentro de subpastas com componentes de domínio específico. Isso pode incluir:
+     - Explicações sobre a função dos componentes dentro daquela pasta.
+     - Exemplos de uso, quando aplicável.
+     - Notas sobre integração com outros módulos.
+   - **Justificativa**: A documentação ajuda na compreensão do projeto, especialmente em áreas que envolvem lógica complexa ou em componentes reutilizáveis que outras partes do projeto dependem. Isso reduz a curva de aprendizado para novos desenvolvedores e aumenta a clareza ao revisar ou atualizar código.
+
+---
+
+### 5. **Consolidação de Configurações Sensíveis em uma Subpasta `config`**
+
+   - **Problema atual**: Configurações como `next.config.js`, `tailwind.config.ts`, e `postcss.config.js` estão diretamente na raiz, o que pode misturar a estrutura de configuração com os arquivos de código.
+   - **Sugestão**: Mover todas as configurações para uma pasta `config` na raiz do projeto, onde esses arquivos possam ser organizados separadamente. Esta pasta pode incluir:
+     - `next.js.config` para o Next.js.
+     - `tailwind.config.ts` para o Tailwind CSS.
+     - Outras configurações futuras que possam surgir.
+   - **Justificativa**: Organizar as configurações dessa forma ajuda a manter a raiz do projeto limpa e direcionada ao código principal, evitando misturar código de aplicação com arquivos de configuração de ambiente. Isso torna o projeto mais organizado e melhora a manutenção.
+
+---
+
+### 6. **Avaliação do Acoplamento com o Convex**
+
+   - **Problema atual**: Atualmente, o código parece diretamente vinculado à API do Convex, o que significa que trocas de backend ou testes unitários podem ser mais complexos.
+   - **Sugestão**: Considerar a criação de uma camada de serviço entre o frontend e o Convex para intermediar chamadas de dados. Essa camada pode ser construída com funções em arquivos dedicados a lidar com dados, usando abstrações que não dependam diretamente da implementação do Convex.
+   - **Justificativa**: Desacoplar o frontend da implementação de backend melhora a flexibilidade, permitindo mudanças futuras sem grande impacto no restante do código. Além disso, essa camada de serviço facilita a criação de testes unitários mais robustos e a simulação de dados para desenvolvimento.
+
+---
+
+Essas mudanças propostas melhorariam a modularidade, organização e clareza do projeto, além de manter boas práticas de arquitetura que facilitam a escalabilidade e a manutenção no longo prazo.
+
 
 
